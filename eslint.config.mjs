@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Prisma schema is validated by `prisma contract emit`, not ESLint
+    "prisma/**",
   ]),
 ]);
 

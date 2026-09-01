@@ -4,6 +4,10 @@
   "target": "postgres",
   "profileHash": "3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2",
   "roots": {
+    "follow": {
+      "model": "Follow",
+      "namespace": "public"
+    },
     "user": {
       "model": "User",
       "namespace": "public"
@@ -13,6 +17,98 @@
     "namespaces": {
       "public": {
         "models": {
+          "Follow": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar"
+                }
+              },
+              "followerId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "followingId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "updatedAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "follower": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "followerId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "User",
+                  "namespace": "public"
+                }
+              },
+              "following": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "followingId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "User",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "followerId": {
+                  "column": "followerId"
+                },
+                "followingId": {
+                  "column": "followingId"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "updatedAt": {
+                  "column": "updatedAt"
+                }
+              },
+              "namespaceId": "public",
+              "table": "follow"
+            }
+          },
           "User": {
             "fields": {
               "bio": {
@@ -65,7 +161,38 @@
                 }
               }
             },
-            "relations": {},
+            "relations": {
+              "followers": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "followingId"
+                  ]
+                },
+                "to": {
+                  "model": "Follow",
+                  "namespace": "public"
+                }
+              },
+              "following": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "followerId"
+                  ]
+                },
+                "to": {
+                  "model": "Follow",
+                  "namespace": "public"
+                }
+              }
+            },
             "storage": {
               "fields": {
                 "bio": {
@@ -103,6 +230,115 @@
       "public": {
         "entries": {
           "table": {
+            "follow": {
+              "columns": {
+                "createdAt": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "followerId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "followingId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "updatedAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "followerId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "follow"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "user"
+                  }
+                },
+                {
+                  "onDelete": "cascade",
+                  "source": {
+                    "columns": [
+                      "followingId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "follow"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "user"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "followerId",
+                    "followingId"
+                  ],
+                  "name": "follow_followerId_followingId_idx_26f4ee2c",
+                  "prefix": "follow_followerId_followingId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "followerId"
+                  ],
+                  "name": "follow_followerId_idx_2aa6c62d",
+                  "prefix": "follow_followerId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "followingId"
+                  ],
+                  "name": "follow_followingId_idx_1cf16645",
+                  "prefix": "follow_followingId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "followerId",
+                    "followingId"
+                  ]
+                }
+              ]
+            },
             "user": {
               "columns": {
                 "bio": {
@@ -166,12 +402,38 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "a41c4b73d009a8e6b23bb2e6e8bf273210f3c626693ca260269cc8dff2bf7edb"
+    "storageHash": "d952990ddb3317b06b0aba6de6a612a85c6c153c0f1643cce773423c9d5aa6c4"
   },
   "execution": {
-    "executionHash": "310019084b15be2633fbf0348189a54dcf1b6e81878d091114c19e518b840b95",
+    "executionHash": "955db87a544d0be65255e1f0fa07e84b01ceac3295fe249c42001fc80eb6fa33",
     "mutations": {
       "defaults": [
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "column": "id",
+            "namespace": "public",
+            "table": "follow"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "onUpdate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "ref": {
+            "column": "updatedAt",
+            "namespace": "public",
+            "table": "follow"
+          }
+        },
         {
           "onCreate": {
             "id": "uuidv4",
