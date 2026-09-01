@@ -22,7 +22,7 @@
               "createdAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "kind": "scalar"
                 }
               },
@@ -233,7 +233,7 @@
             "follow": {
               "columns": {
                 "createdAt": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -402,7 +402,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "d952990ddb3317b06b0aba6de6a612a85c6c153c0f1643cce773423c9d5aa6c4"
+    "storageHash": "966622bda83ccff332562d0d1716ff0b8a15c1a7f5c9991d54f85d340237a81a"
   },
   "execution": {
     "executionHash": "955db87a544d0be65255e1f0fa07e84b01ceac3295fe249c42001fc80eb6fa33",
