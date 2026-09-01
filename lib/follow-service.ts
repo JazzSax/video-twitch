@@ -1,10 +1,11 @@
 import { db } from "@/prisma/db";
 import { getSelf } from "@/lib/auth-service";
+import { getBlocking, getBlockedBy } from "./block-service";
 
 export const getFollowers = async () => {
   try {
     const self = await getSelf();
-    
+
     const followers = await db.orm.public.Follow
     .include('following', (user) => user.select('id', 'username', 'imageUrl'))
     .where({
@@ -21,15 +22,21 @@ export const getFollowers = async () => {
 export const getFollowing = async () => {
   try {
     const self = await getSelf();
-    const following = await db.orm.public.Follow
-    .include('following', (user) => user.select('id', 'username', 'imageUrl'))
-    .where({
-      followerId: self.id,
-    })
-    .all();
-    return following;
+    const [following, blocking, blockedBy] = await Promise.all([
+      db.orm.public.Follow
+        .include('following', (user) => user.select('id', 'username', 'imageUrl'))
+        .where({ followerId: self.id })
+        .all(),
+      getBlocking(),
+      getBlockedBy(),
+    ]);
+
+    const hiddenIds = new Set([
+      ...blocking.map((block) => block.blockedId),
+      ...blockedBy.map((block) => block.blockerId),
+    ]);
+    return following.filter((follow) => !hiddenIds.has(follow.followingId));
   } catch {
-  
     return [];
   }
 };
