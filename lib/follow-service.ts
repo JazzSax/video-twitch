@@ -1,6 +1,39 @@
 import { db } from "@/prisma/db";
 import { getSelf } from "@/lib/auth-service";
 
+export const getFollowers = async () => {
+  try {
+    const self = await getSelf();
+    
+    const followers = await db.orm.public.Follow
+    .include('following', (user) => user.select('id', 'username', 'imageUrl'))
+    .where({
+      followingId: self.id,
+    })
+    .all();
+    return followers;
+  } catch{
+   
+    return [];
+  }
+};
+
+export const getFollowing = async () => {
+  try {
+    const self = await getSelf();
+    const following = await db.orm.public.Follow
+    .include('following', (user) => user.select('id', 'username', 'imageUrl'))
+    .where({
+      followerId: self.id,
+    })
+    .all();
+    return following;
+  } catch {
+  
+    return [];
+  }
+};
+
 export const isFollowingUser = async (userId: string) => {
   try {
     const self = await getSelf();

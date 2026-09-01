@@ -14,6 +14,7 @@ export const getRecommended = async () => {
   if (userId) {
     const users = await db.orm.public.User
       .where((u) => u.id.neq(userId))
+      .where((u) => u.followers.none((f) => f.followerId.eq(userId)))
       .orderBy((u) => u.createdAt.desc())
       .all();
     return users;
