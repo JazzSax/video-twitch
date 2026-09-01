@@ -1,7 +1,7 @@
 // use prisma-next
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   clerkId   String   @unique
   username  String?
   bio      String?
@@ -10,3 +10,14 @@ model User {
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
+
+// model Follow {
+//   id        String   @id @default(uuid())
+//   followerId String
+//   followingId String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   follower User @relation(name: "Following", fields: [followerId], references: [id], onDelete: Cascade)
+//   following User @relation(name: "Follower", fields: [followingId], references: [id], onDelete: Cascade)
+// }

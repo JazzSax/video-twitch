@@ -33,9 +33,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'7488b14a0efd9306d6a9a5816021e85800a901e5ef161f5ad9b9d3c09a98fa45'>;
+  StorageHashBase<'a41c4b73d009a8e6b23bb2e6e8bf273210f3c626693ca260269cc8dff2bf7edb'>;
 export type ExecutionHash =
-  ExecutionHashBase<'a499031370d1fd1891ca11072d3f7e11be752b686057f7c6d0900ee0159f4ed0'>;
+  ExecutionHashBase<'310019084b15be2633fbf0348189a54dcf1b6e81878d091114c19e518b840b95'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -242,7 +242,7 @@ type DefaultLiteralValue<CodecId extends string, Encoded> = CodecId extends keyo
 export type FieldOutputTypes = {
   readonly public: {
     readonly User: {
-      readonly id: CodecTypes['pg/int4@1']['output'];
+      readonly id: CodecTypes['pg/text@1']['output'];
       readonly clerkId: CodecTypes['pg/text@1']['output'];
       readonly username: CodecTypes['pg/text@1']['output'] | null;
       readonly bio: CodecTypes['pg/text@1']['output'] | null;
@@ -255,7 +255,7 @@ export type FieldOutputTypes = {
 export type FieldInputTypes = {
   readonly public: {
     readonly User: {
-      readonly id: CodecTypes['pg/int4@1']['input'];
+      readonly id: CodecTypes['pg/text@1']['input'];
       readonly clerkId: CodecTypes['pg/text@1']['input'];
       readonly username: CodecTypes['pg/text@1']['input'] | null;
       readonly bio: CodecTypes['pg/text@1']['input'] | null;
@@ -271,7 +271,7 @@ export type StorageColumnTypes = {
       readonly bio: CodecTypes['pg/text@1']['output'] | null;
       readonly clerkId: CodecTypes['pg/text@1']['output'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
-      readonly id: CodecTypes['pg/int4@1']['output'];
+      readonly id: CodecTypes['pg/text@1']['output'];
       readonly imageUrl: CodecTypes['pg/text@1']['output'] | null;
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly username: CodecTypes['pg/text@1']['output'] | null;
@@ -284,7 +284,7 @@ export type StorageColumnInputTypes = {
       readonly bio: CodecTypes['pg/text@1']['input'] | null;
       readonly clerkId: CodecTypes['pg/text@1']['input'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
-      readonly id: CodecTypes['pg/int4@1']['input'];
+      readonly id: CodecTypes['pg/text@1']['input'];
       readonly imageUrl: CodecTypes['pg/text@1']['input'] | null;
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly username: CodecTypes['pg/text@1']['input'] | null;
@@ -312,13 +312,9 @@ type ContractBase = Omit<
             readonly user: {
               columns: {
                 readonly id: {
-                  readonly nativeType: 'int4';
-                  readonly codecId: 'pg/int4@1';
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
                   readonly nullable: false;
-                  readonly default: {
-                    readonly kind: 'function';
-                    readonly expression: 'autoincrement()';
-                  };
                 };
                 readonly clerkId: {
                   readonly nativeType: 'text';
@@ -378,7 +374,7 @@ type ContractBase = Omit<
             readonly fields: {
               readonly id: {
                 readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
               readonly clerkId: {
                 readonly nullable: false;
@@ -453,6 +449,14 @@ type ContractBase = Omit<
     readonly executionHash: ExecutionHash;
     readonly mutations: {
       readonly defaults: readonly [
+        {
+          readonly ref: {
+            readonly namespace: 'public';
+            readonly table: 'user';
+            readonly column: 'id';
+          };
+          readonly onCreate: { readonly kind: 'generator'; readonly id: 'uuidv4' };
+        },
         {
           readonly ref: {
             readonly namespace: 'public';
