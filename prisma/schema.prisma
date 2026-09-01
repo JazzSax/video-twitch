@@ -10,6 +10,9 @@ model User {
   following Follow[] @relation("Following")
   followers Follow[] @relation("Follower")
 
+  blocking Block[] @relation("Blocking")
+  blockedBy Block[] @relation("BlockedBy")
+
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
@@ -26,4 +29,17 @@ model Follow {
 
   @@index([followerId, followingId])
   @@unique([followerId, followingId])
+}
+
+model Block {
+  id        String   @id @default(uuid())
+  blockerId String
+  blockedId String
+  createdAt TimestamptzString @default(now())
+  updatedAt temporal.updatedAtString()
+  blocker User @relation(name: "Blocking", fields: [blockerId], references: [id], onDelete: Cascade)
+  blocked User @relation(name: "BlockedBy", fields: [blockedId], references: [id], onDelete: Cascade)
+
+  @@index([blockerId, blockedId])
+  @@unique([blockerId, blockedId])
 }

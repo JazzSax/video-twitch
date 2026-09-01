@@ -33,9 +33,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'966622bda83ccff332562d0d1716ff0b8a15c1a7f5c9991d54f85d340237a81a'>;
+  StorageHashBase<'33cacc2243266869aeaad755d72ed9a7e7372e1f0f2109372429eb8507928566'>;
 export type ExecutionHash =
-  ExecutionHashBase<'955db87a544d0be65255e1f0fa07e84b01ceac3295fe249c42001fc80eb6fa33'>;
+  ExecutionHashBase<'17488761bad2570b6ac4cc8cf84799642a8d32f283bc7c83ea6bba18836d134c'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -241,6 +241,13 @@ type DefaultLiteralValue<CodecId extends string, Encoded> = CodecId extends keyo
 
 export type FieldOutputTypes = {
   readonly public: {
+    readonly Block: {
+      readonly id: CodecTypes['pg/text@1']['output'];
+      readonly blockerId: CodecTypes['pg/text@1']['output'];
+      readonly blockedId: CodecTypes['pg/text@1']['output'];
+      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    };
     readonly Follow: {
       readonly id: CodecTypes['pg/text@1']['output'];
       readonly followerId: CodecTypes['pg/text@1']['output'];
@@ -261,6 +268,13 @@ export type FieldOutputTypes = {
 };
 export type FieldInputTypes = {
   readonly public: {
+    readonly Block: {
+      readonly id: CodecTypes['pg/text@1']['input'];
+      readonly blockerId: CodecTypes['pg/text@1']['input'];
+      readonly blockedId: CodecTypes['pg/text@1']['input'];
+      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
+    };
     readonly Follow: {
       readonly id: CodecTypes['pg/text@1']['input'];
       readonly followerId: CodecTypes['pg/text@1']['input'];
@@ -281,6 +295,13 @@ export type FieldInputTypes = {
 };
 export type StorageColumnTypes = {
   readonly public: {
+    readonly block: {
+      readonly blockedId: CodecTypes['pg/text@1']['output'];
+      readonly blockerId: CodecTypes['pg/text@1']['output'];
+      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly id: CodecTypes['pg/text@1']['output'];
+      readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    };
     readonly follow: {
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly followerId: CodecTypes['pg/text@1']['output'];
@@ -301,6 +322,13 @@ export type StorageColumnTypes = {
 };
 export type StorageColumnInputTypes = {
   readonly public: {
+    readonly block: {
+      readonly blockedId: CodecTypes['pg/text@1']['input'];
+      readonly blockerId: CodecTypes['pg/text@1']['input'];
+      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly id: CodecTypes['pg/text@1']['input'];
+      readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
+    };
     readonly follow: {
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly followerId: CodecTypes['pg/text@1']['input'];
@@ -337,6 +365,84 @@ type ContractBase = Omit<
         readonly kind: 'postgres-schema';
         readonly entries: {
           readonly table: {
+            readonly block: {
+              columns: {
+                readonly id: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly blockerId: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly blockedId: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly createdAt: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                };
+                readonly updatedAt: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly nullable: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [{ readonly columns: readonly ['blockerId', 'blockedId'] }];
+              indexes: readonly [
+                {
+                  readonly name: 'block_blockerId_blockedId_idx_30ed83d6';
+                  readonly prefix: 'block_blockerId_blockedId_idx';
+                  readonly columns: readonly ['blockerId', 'blockedId'];
+                  readonly unique: false;
+                },
+                {
+                  readonly name: 'block_blockerId_idx_a25bd35c';
+                  readonly prefix: 'block_blockerId_idx';
+                  readonly columns: readonly ['blockerId'];
+                  readonly unique: false;
+                },
+                {
+                  readonly name: 'block_blockedId_idx_e3047657';
+                  readonly prefix: 'block_blockedId_idx';
+                  readonly columns: readonly ['blockedId'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'block';
+                    readonly columns: readonly ['blockerId'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'user';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'block';
+                    readonly columns: readonly ['blockedId'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'user';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+              ];
+            };
             readonly follow: {
               columns: {
                 readonly id: {
@@ -472,11 +578,71 @@ type ContractBase = Omit<
   readonly roots: {
     readonly user: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
     readonly follow: { readonly namespace: 'public' & NamespaceId; readonly model: 'Follow' };
+    readonly block: { readonly namespace: 'public' & NamespaceId; readonly model: 'Block' };
   };
   readonly domain: {
     readonly namespaces: {
       readonly public: {
         readonly models: {
+          readonly Block: {
+            readonly fields: {
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly blockerId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly blockedId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-string@1';
+                };
+              };
+              readonly updatedAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-string@1';
+                };
+              };
+            };
+            readonly relations: {
+              readonly blocked: {
+                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
+                readonly cardinality: 'N:1';
+                readonly on: {
+                  readonly localFields: readonly ['blockedId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+              readonly blocker: {
+                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
+                readonly cardinality: 'N:1';
+                readonly on: {
+                  readonly localFields: readonly ['blockerId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'block';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly id: { readonly column: 'id' };
+                readonly blockerId: { readonly column: 'blockerId' };
+                readonly blockedId: { readonly column: 'blockedId' };
+                readonly createdAt: { readonly column: 'createdAt' };
+                readonly updatedAt: { readonly column: 'updatedAt' };
+              };
+            };
+          };
           readonly Follow: {
             readonly fields: {
               readonly id: {
@@ -574,6 +740,28 @@ type ContractBase = Omit<
               };
             };
             readonly relations: {
+              readonly blockedBy: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Block';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['blockedId'];
+                };
+              };
+              readonly blocking: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Block';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['blockerId'];
+                };
+              };
               readonly followers: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
@@ -638,6 +826,23 @@ type ContractBase = Omit<
     readonly executionHash: ExecutionHash;
     readonly mutations: {
       readonly defaults: readonly [
+        {
+          readonly ref: {
+            readonly namespace: 'public';
+            readonly table: 'block';
+            readonly column: 'id';
+          };
+          readonly onCreate: { readonly kind: 'generator'; readonly id: 'uuidv4' };
+        },
+        {
+          readonly ref: {
+            readonly namespace: 'public';
+            readonly table: 'block';
+            readonly column: 'updatedAt';
+          };
+          readonly onCreate: { readonly kind: 'generator'; readonly id: 'timestampNow' };
+          readonly onUpdate: { readonly kind: 'generator'; readonly id: 'timestampNow' };
+        },
         {
           readonly ref: {
             readonly namespace: 'public';

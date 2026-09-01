@@ -1,0 +1,284 @@
+[
+  {
+    "id": "table.block",
+    "label": "Create table \"block\"",
+    "summary": "Creates table \"block\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "block"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"block\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"block\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"block\"",
+        "sql": "CREATE TABLE \"public\".\"block\" (\n  \"blockedId\" text NOT NULL,\n  \"blockerId\" text NOT NULL,\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"id\" text NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"block\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"block\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.block.block_blockerId_blockedId_key",
+    "label": "Add unique constraint on \"block\" (blockerId, blockedId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "block_blockerId_blockedId_key",
+        "table": "block"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"block_blockerId_blockedId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "block_blockerId_blockedId_key",
+          "public",
+          "\"public\".\"block\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"block_blockerId_blockedId_key\"",
+        "sql": "ALTER TABLE \"public\".\"block\" ADD CONSTRAINT \"block_blockerId_blockedId_key\" UNIQUE (\"blockerId\", \"blockedId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"block_blockerId_blockedId_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "block_blockerId_blockedId_key",
+          "public",
+          "\"public\".\"block\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.block.block_blockedId_idx_e3047657",
+    "label": "Create index \"block_blockedId_idx_e3047657\" on \"block\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "block_blockedId_idx_e3047657",
+        "table": "block"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"block_blockedId_idx_e3047657\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"block_blockedId_idx_e3047657\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"block_blockedId_idx_e3047657\"",
+        "sql": "CREATE INDEX \"block_blockedId_idx_e3047657\" ON \"public\".\"block\" (\"blockedId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"block_blockedId_idx_e3047657\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"block_blockedId_idx_e3047657\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.block.block_blockerId_blockedId_idx_30ed83d6",
+    "label": "Create index \"block_blockerId_blockedId_idx_30ed83d6\" on \"block\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "block_blockerId_blockedId_idx_30ed83d6",
+        "table": "block"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"block_blockerId_blockedId_idx_30ed83d6\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"block_blockerId_blockedId_idx_30ed83d6\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"block_blockerId_blockedId_idx_30ed83d6\"",
+        "sql": "CREATE INDEX \"block_blockerId_blockedId_idx_30ed83d6\" ON \"public\".\"block\" (\"blockerId\", \"blockedId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"block_blockerId_blockedId_idx_30ed83d6\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"block_blockerId_blockedId_idx_30ed83d6\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.block.block_blockerId_idx_a25bd35c",
+    "label": "Create index \"block_blockerId_idx_a25bd35c\" on \"block\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "block_blockerId_idx_a25bd35c",
+        "table": "block"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"block_blockerId_idx_a25bd35c\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"block_blockerId_idx_a25bd35c\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"block_blockerId_idx_a25bd35c\"",
+        "sql": "CREATE INDEX \"block_blockerId_idx_a25bd35c\" ON \"public\".\"block\" (\"blockerId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"block_blockerId_idx_a25bd35c\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"block_blockerId_idx_a25bd35c\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.block.block_blockerId_fkey",
+    "label": "Add foreign key \"block_blockerId_fkey\" on \"block\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "block_blockerId_fkey",
+        "table": "block"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"block_blockerId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "block_blockerId_fkey",
+          "public",
+          "\"public\".\"block\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"block_blockerId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"block\"\nADD CONSTRAINT \"block_blockerId_fkey\"\nFOREIGN KEY (\"blockerId\")\nREFERENCES \"public\".\"user\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"block_blockerId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "block_blockerId_fkey",
+          "public",
+          "\"public\".\"block\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.block.block_blockedId_fkey",
+    "label": "Add foreign key \"block_blockedId_fkey\" on \"block\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "block_blockedId_fkey",
+        "table": "block"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"block_blockedId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "block_blockedId_fkey",
+          "public",
+          "\"public\".\"block\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"block_blockedId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"block\"\nADD CONSTRAINT \"block_blockedId_fkey\"\nFOREIGN KEY (\"blockedId\")\nREFERENCES \"public\".\"user\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"block_blockedId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "block_blockedId_fkey",
+          "public",
+          "\"public\".\"block\""
+        ]
+      }
+    ]
+  }
+]
