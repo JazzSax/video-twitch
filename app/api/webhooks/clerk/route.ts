@@ -45,10 +45,14 @@ export async function POST(request: Request) {
 	
 
 			await db.orm.public.User.create({
-				clerkId: id,
-				username,
+        clerkId: id,
+        username,
         imageUrl: image_url,
-			});
+        stream: (stream) =>
+          stream.create({
+            name: `${username ?? "User"}'s stream`,
+          }),
+      });
 			return new Response("User created", { status: 200 });
 		}
   if (event.type === "user.updated") {
@@ -69,6 +73,7 @@ export async function POST(request: Request) {
     return new Response("User updated", { status: 200 });
   }
   if (event.type === "user.deleted") {
+  
     const {
       id,
     } = event.data;
