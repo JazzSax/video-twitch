@@ -1,0 +1,167 @@
+[
+  {
+    "id": "table.stream",
+    "label": "Create table \"stream\"",
+    "summary": "Creates table \"stream\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "stream"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"stream\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"stream\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"stream\"",
+        "sql": "CREATE TABLE \"public\".\"stream\" (\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"id\" text NOT NULL,\n  \"ingressId\" text,\n  \"isChatDelayed\" bool DEFAULT false NOT NULL,\n  \"isChatEnabled\" bool DEFAULT false NOT NULL,\n  \"isChatFollowersOnly\" bool DEFAULT false NOT NULL,\n  \"isLive\" bool DEFAULT false NOT NULL,\n  \"name\" text NOT NULL,\n  \"serverUrl\" text,\n  \"streamKey\" text,\n  \"thumbnail\" text,\n  \"updatedAt\" timestamptz NOT NULL,\n  \"userId\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"stream\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"stream\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.stream.stream_ingressId_key",
+    "label": "Add unique constraint on \"stream\" (ingressId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "stream_ingressId_key",
+        "table": "stream"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"stream_ingressId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "stream_ingressId_key",
+          "public",
+          "\"public\".\"stream\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"stream_ingressId_key\"",
+        "sql": "ALTER TABLE \"public\".\"stream\" ADD CONSTRAINT \"stream_ingressId_key\" UNIQUE (\"ingressId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"stream_ingressId_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "stream_ingressId_key",
+          "public",
+          "\"public\".\"stream\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.stream.stream_userId_key",
+    "label": "Add unique constraint on \"stream\" (userId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "stream_userId_key",
+        "table": "stream"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"stream_userId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "stream_userId_key",
+          "public",
+          "\"public\".\"stream\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"stream_userId_key\"",
+        "sql": "ALTER TABLE \"public\".\"stream\" ADD CONSTRAINT \"stream_userId_key\" UNIQUE (\"userId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"stream_userId_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "stream_userId_key",
+          "public",
+          "\"public\".\"stream\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.stream.stream_userId_fkey",
+    "label": "Add foreign key \"stream_userId_fkey\" on \"stream\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "stream_userId_fkey",
+        "table": "stream"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"stream_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "stream_userId_fkey",
+          "public",
+          "\"public\".\"stream\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"stream_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"stream\"\nADD CONSTRAINT \"stream_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"user\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"stream_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "stream_userId_fkey",
+          "public",
+          "\"public\".\"stream\""
+        ]
+      }
+    ]
+  }
+]

@@ -33,9 +33,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'33cacc2243266869aeaad755d72ed9a7e7372e1f0f2109372429eb8507928566'>;
+  StorageHashBase<'12cb5d5883ca0313cec3208423b93f4d5c9a3f8b82f83cbd986bc4b23a3b5ce2'>;
 export type ExecutionHash =
-  ExecutionHashBase<'17488761bad2570b6ac4cc8cf84799642a8d32f283bc7c83ea6bba18836d134c'>;
+  ExecutionHashBase<'208e4eb89f0f99ba8c422fbf952b7bce59e45f600d472e415c3fea002b4c4a95'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -255,6 +255,21 @@ export type FieldOutputTypes = {
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     };
+    readonly Stream: {
+      readonly id: CodecTypes['pg/text@1']['output'];
+      readonly name: CodecTypes['pg/text@1']['output'];
+      readonly thumbnail: CodecTypes['pg/text@1']['output'] | null;
+      readonly ingressId: CodecTypes['pg/text@1']['output'] | null;
+      readonly serverUrl: CodecTypes['pg/text@1']['output'] | null;
+      readonly streamKey: CodecTypes['pg/text@1']['output'] | null;
+      readonly isLive: CodecTypes['pg/bool@1']['output'];
+      readonly isChatEnabled: CodecTypes['pg/bool@1']['output'];
+      readonly isChatDelayed: CodecTypes['pg/bool@1']['output'];
+      readonly isChatFollowersOnly: CodecTypes['pg/bool@1']['output'];
+      readonly userId: CodecTypes['pg/text@1']['output'];
+      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    };
     readonly User: {
       readonly id: CodecTypes['pg/text@1']['output'];
       readonly clerkId: CodecTypes['pg/text@1']['output'];
@@ -279,6 +294,21 @@ export type FieldInputTypes = {
       readonly id: CodecTypes['pg/text@1']['input'];
       readonly followerId: CodecTypes['pg/text@1']['input'];
       readonly followingId: CodecTypes['pg/text@1']['input'];
+      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
+    };
+    readonly Stream: {
+      readonly id: CodecTypes['pg/text@1']['input'];
+      readonly name: CodecTypes['pg/text@1']['input'];
+      readonly thumbnail: CodecTypes['pg/text@1']['input'] | null;
+      readonly ingressId: CodecTypes['pg/text@1']['input'] | null;
+      readonly serverUrl: CodecTypes['pg/text@1']['input'] | null;
+      readonly streamKey: CodecTypes['pg/text@1']['input'] | null;
+      readonly isLive: CodecTypes['pg/bool@1']['input'];
+      readonly isChatEnabled: CodecTypes['pg/bool@1']['input'];
+      readonly isChatDelayed: CodecTypes['pg/bool@1']['input'];
+      readonly isChatFollowersOnly: CodecTypes['pg/bool@1']['input'];
+      readonly userId: CodecTypes['pg/text@1']['input'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
     };
@@ -309,6 +339,21 @@ export type StorageColumnTypes = {
       readonly id: CodecTypes['pg/text@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     };
+    readonly stream: {
+      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly id: CodecTypes['pg/text@1']['output'];
+      readonly ingressId: CodecTypes['pg/text@1']['output'] | null;
+      readonly isChatDelayed: CodecTypes['pg/bool@1']['output'];
+      readonly isChatEnabled: CodecTypes['pg/bool@1']['output'];
+      readonly isChatFollowersOnly: CodecTypes['pg/bool@1']['output'];
+      readonly isLive: CodecTypes['pg/bool@1']['output'];
+      readonly name: CodecTypes['pg/text@1']['output'];
+      readonly serverUrl: CodecTypes['pg/text@1']['output'] | null;
+      readonly streamKey: CodecTypes['pg/text@1']['output'] | null;
+      readonly thumbnail: CodecTypes['pg/text@1']['output'] | null;
+      readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly userId: CodecTypes['pg/text@1']['output'];
+    };
     readonly user: {
       readonly bio: CodecTypes['pg/text@1']['output'] | null;
       readonly clerkId: CodecTypes['pg/text@1']['output'];
@@ -335,6 +380,21 @@ export type StorageColumnInputTypes = {
       readonly followingId: CodecTypes['pg/text@1']['input'];
       readonly id: CodecTypes['pg/text@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
+    };
+    readonly stream: {
+      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly id: CodecTypes['pg/text@1']['input'];
+      readonly ingressId: CodecTypes['pg/text@1']['input'] | null;
+      readonly isChatDelayed: CodecTypes['pg/bool@1']['input'];
+      readonly isChatEnabled: CodecTypes['pg/bool@1']['input'];
+      readonly isChatFollowersOnly: CodecTypes['pg/bool@1']['input'];
+      readonly isLive: CodecTypes['pg/bool@1']['input'];
+      readonly name: CodecTypes['pg/text@1']['input'];
+      readonly serverUrl: CodecTypes['pg/text@1']['input'] | null;
+      readonly streamKey: CodecTypes['pg/text@1']['input'] | null;
+      readonly thumbnail: CodecTypes['pg/text@1']['input'] | null;
+      readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly userId: CodecTypes['pg/text@1']['input'];
     };
     readonly user: {
       readonly bio: CodecTypes['pg/text@1']['input'] | null;
@@ -521,6 +581,112 @@ type ContractBase = Omit<
                 },
               ];
             };
+            readonly stream: {
+              columns: {
+                readonly id: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly name: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly thumbnail: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly ingressId: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly serverUrl: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly streamKey: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly isLive: {
+                  readonly nativeType: 'bool';
+                  readonly codecId: 'pg/bool@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/bool@1', false>;
+                  };
+                };
+                readonly isChatEnabled: {
+                  readonly nativeType: 'bool';
+                  readonly codecId: 'pg/bool@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/bool@1', false>;
+                  };
+                };
+                readonly isChatDelayed: {
+                  readonly nativeType: 'bool';
+                  readonly codecId: 'pg/bool@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/bool@1', false>;
+                  };
+                };
+                readonly isChatFollowersOnly: {
+                  readonly nativeType: 'bool';
+                  readonly codecId: 'pg/bool@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/bool@1', false>;
+                  };
+                };
+                readonly userId: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly createdAt: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                };
+                readonly updatedAt: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly nullable: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [
+                { readonly columns: readonly ['ingressId'] },
+                { readonly columns: readonly ['userId'] },
+              ];
+              indexes: readonly [];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'stream';
+                    readonly columns: readonly ['userId'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'user';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+              ];
+            };
             readonly user: {
               columns: {
                 readonly id: {
@@ -579,6 +745,7 @@ type ContractBase = Omit<
     readonly user: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
     readonly follow: { readonly namespace: 'public' & NamespaceId; readonly model: 'Follow' };
     readonly block: { readonly namespace: 'public' & NamespaceId; readonly model: 'Block' };
+    readonly stream: { readonly namespace: 'public' & NamespaceId; readonly model: 'Stream' };
   };
   readonly domain: {
     readonly namespaces: {
@@ -702,6 +869,97 @@ type ContractBase = Omit<
               };
             };
           };
+          readonly Stream: {
+            readonly fields: {
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly name: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly thumbnail: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly ingressId: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly serverUrl: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly streamKey: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly isLive: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
+              };
+              readonly isChatEnabled: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
+              };
+              readonly isChatDelayed: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
+              };
+              readonly isChatFollowersOnly: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
+              };
+              readonly userId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-string@1';
+                };
+              };
+              readonly updatedAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-string@1';
+                };
+              };
+            };
+            readonly relations: {
+              readonly user: {
+                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
+                readonly cardinality: 'N:1';
+                readonly on: {
+                  readonly localFields: readonly ['userId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'stream';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly id: { readonly column: 'id' };
+                readonly name: { readonly column: 'name' };
+                readonly thumbnail: { readonly column: 'thumbnail' };
+                readonly ingressId: { readonly column: 'ingressId' };
+                readonly serverUrl: { readonly column: 'serverUrl' };
+                readonly streamKey: { readonly column: 'streamKey' };
+                readonly isLive: { readonly column: 'isLive' };
+                readonly isChatEnabled: { readonly column: 'isChatEnabled' };
+                readonly isChatDelayed: { readonly column: 'isChatDelayed' };
+                readonly isChatFollowersOnly: { readonly column: 'isChatFollowersOnly' };
+                readonly userId: { readonly column: 'userId' };
+                readonly createdAt: { readonly column: 'createdAt' };
+                readonly updatedAt: { readonly column: 'updatedAt' };
+              };
+            };
+          };
           readonly User: {
             readonly fields: {
               readonly id: {
@@ -784,6 +1042,17 @@ type ContractBase = Omit<
                   readonly targetFields: readonly ['followerId'];
                 };
               };
+              readonly stream: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Stream';
+                };
+                readonly cardinality: '1:1';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['userId'];
+                };
+              };
             };
             readonly storage: {
               readonly table: 'user';
@@ -855,6 +1124,23 @@ type ContractBase = Omit<
           readonly ref: {
             readonly namespace: 'public';
             readonly table: 'follow';
+            readonly column: 'updatedAt';
+          };
+          readonly onCreate: { readonly kind: 'generator'; readonly id: 'timestampNow' };
+          readonly onUpdate: { readonly kind: 'generator'; readonly id: 'timestampNow' };
+        },
+        {
+          readonly ref: {
+            readonly namespace: 'public';
+            readonly table: 'stream';
+            readonly column: 'id';
+          };
+          readonly onCreate: { readonly kind: 'generator'; readonly id: 'uuidv4' };
+        },
+        {
+          readonly ref: {
+            readonly namespace: 'public';
+            readonly table: 'stream';
             readonly column: 'updatedAt';
           };
           readonly onCreate: { readonly kind: 'generator'; readonly id: 'timestampNow' };
