@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Poppins } from "next/font/google";
 import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 const font = Poppins({
   subsets: ["latin"],
@@ -9,7 +10,10 @@ const font = Poppins({
 
 export const Logo = () => {
   return (
-    <Link href="/">
+    <Link href="/" 
+    className={cn(
+      buttonVariants({ variant: "ghost", size:"sm" }),
+    )}>
       <div className="flex items-center gap-x-4 hover:opacity-75 transition">
         <div className="bg-white rounded-full p-1 mr-12 shrink-0 lg:mr-0">
           <Image src="/spooky.svg" alt="gamehub" width={40} height={40} />

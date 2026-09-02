@@ -14,3 +14,24 @@ export const getSelf = async () => {
   }
   return user;
 }
+
+export const getSelfByUsername = async (username: string) => {
+  const self = await currentUser();
+  if (!self) {
+    throw new Error("User not found");
+  }
+
+  const user = await db.orm.public.User.where({
+    username,
+  }).first();
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  if (user.clerkId !== self.id) {
+    throw new Error("Unauthorized");
+  }
+
+  return user;
+}
