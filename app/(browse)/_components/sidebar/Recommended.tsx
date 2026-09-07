@@ -7,7 +7,7 @@ import { UserItemSkeleton } from "./UserItem";
 type User = FieldOutputTypes["public"]["User"];
 
 interface RecommendedProps {
-  users: User[];
+  users: (User & { stream: FieldOutputTypes["public"]["Stream"] })[];
 }
 
 export const Recommended = ({ users }: RecommendedProps) => {
@@ -24,7 +24,7 @@ export const Recommended = ({ users }: RecommendedProps) => {
       }
       <ul className="space-y-2 px-2">
         {users.map((user) => (
-          <UserItem key={user.id} username={user.username} imageUrl={user.imageUrl} isLive={false} />
+          <UserItem key={user.id} username={user.username} imageUrl={user.imageUrl} isLive={user.stream?.isLive} />
         ))}
       </ul>
     </div>

@@ -13,6 +13,7 @@ export const getRecommended = async () => {
 
   if (userId) {
     const users = await db.orm.public.User
+      .include('stream', (stream) => stream.select('id', 'streamKey', 'serverUrl','ingressId', 'isLive'))
       .where((u) => u.id.neq(userId))
       .where((u) => u.followers.none((f) => f.followerId.eq(userId)))
       .where((u) => u.blocking.none((b) => b.blockedId.eq(userId)))
@@ -22,6 +23,7 @@ export const getRecommended = async () => {
   }
   else {
     const users = await db.orm.public.User
+      .include('stream', (stream) => stream.select('id', 'streamKey', 'serverUrl','ingressId', 'isLive'))
       .orderBy((u) => u.createdAt.desc())
       .all();
     return users;
