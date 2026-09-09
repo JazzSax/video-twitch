@@ -4,10 +4,13 @@ import type { FieldOutputTypes } from "@/prisma/schema.d";
 import { UserItem } from "./UserItem";
 import { UserItemSkeleton } from "./UserItem";
 type User = FieldOutputTypes["public"]["User"];
-type FollowingUser = Pick<User, "id" | "username" | "imageUrl">;
+type Stream = FieldOutputTypes["public"]["Stream"];
+type FollowingUser = Pick<User, "id" | "username" | "imageUrl"> & {
+  stream: Pick<Stream, "isLive"> | null;
+};
 type Follow = FieldOutputTypes["public"]["Follow"];
 interface FollowingProps {
-  data: ( Follow & { following: FollowingUser & { stream: FieldOutputTypes["public"]["Stream"] } } )[];
+  data: (Follow & { following: FollowingUser })[];
 }
 export const Following = ({ data }: FollowingProps) => {
   const { collapsed } = useSidebar();
@@ -24,7 +27,7 @@ export const Following = ({ data }: FollowingProps) => {
       <ul className="space-y-2">
         {data.map((item) => (
           <li key={item.id}>
-            <UserItem username={item.following.username} imageUrl={item.following.imageUrl} isLive={item.following.stream?.isLive} />
+            <UserItem username={item.following.username} imageUrl={item.following.imageUrl} isLive={item.following.stream?.isLive ?? false} />
           </li>
         ))}
       </ul>

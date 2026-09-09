@@ -25,7 +25,11 @@ export const getFollowing = async () => {
     const self = await getSelf();
     const [following, blocking, blockedBy] = await Promise.all([
       db.orm.public.Follow
-        .include('following', (user) => user.select('id', 'username', 'imageUrl'))
+        .include('following', (user) =>
+          user
+            .select('id', 'username', 'imageUrl')
+            .include('stream', (stream) => stream.select('isLive'))
+        )
         .where({ followerId: self.id })
         .all(),
       getBlocking(),
