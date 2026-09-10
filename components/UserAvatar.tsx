@@ -21,12 +21,13 @@ interface UserAvatarProps extends VariantProps<typeof avatarVariants> {
   imageUrl: string;
   isLive?: boolean;
   showBadge?: boolean;
+  size?: "default" | "sm" | "lg";
 }
-export const UserAvatar = ({ username, imageUrl, isLive, showBadge }: UserAvatarProps) => {
+export const UserAvatar = ({ username, imageUrl, isLive, showBadge, size }: UserAvatarProps) => {
   const canShowBadge = isLive && showBadge;
   return (
     <div className='relative'>
-      <Avatar className={cn(avatarVariants({ size: "default" }), isLive && "ring-2 ring-rose-500 border border-background")}>
+      <Avatar className={cn(avatarVariants({ size }), isLive && "ring-2 ring-rose-500 border border-background")}>
       {imageUrl ? <AvatarImage src={imageUrl} className="object-cover" alt={username} /> : null}
       <AvatarFallback>{username[0]?.toUpperCase()}</AvatarFallback>
     </Avatar>
@@ -50,7 +51,7 @@ interface UserAvatarSkeletonProps extends VariantProps<typeof avatarVariants> {
 export const UserAvatarSkeleton = ({ size, className }: UserAvatarSkeletonProps) => {
   return (
     <div className='relative'>
-      <Skeleton className={cn(avatarVariants({ size: "default" }), "rounded-full", className)} />
+      <Skeleton className={cn(avatarVariants({ size }), "rounded-full", className)} />
     </div>
   );
 };

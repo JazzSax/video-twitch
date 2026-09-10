@@ -3,7 +3,7 @@ import { db } from "@/prisma/db";
 export const getUserByUsername = async (username: string) => {
   try {
     const user = await db.orm.public.User
-    .include('stream', (stream) => stream.select('id', 'streamKey', 'serverUrl','ingressId', 'isLive', 'isChatEnabled', 'isChatDelayed', 'isChatFollowersOnly'))
+    .include('stream', (stream) => stream.select('id', 'streamKey', 'serverUrl','ingressId', 'isLive', 'isChatEnabled', 'isChatDelayed', 'isChatFollowersOnly','name'))
     .where({
       username: username,
     }).first();
@@ -17,7 +17,7 @@ export const getUserByUsername = async (username: string) => {
 export const getUserById = async (id: string) => {
   try {
     const user = await db.orm.public.User
-    .include('stream', (stream) => stream.select('id', 'streamKey', 'serverUrl','ingressId', 'isLive', 'isChatEnabled', 'isChatDelayed', 'isChatFollowersOnly'))
+    .include('stream', (stream) => stream.select('id', 'streamKey', 'serverUrl','ingressId', 'isLive', 'isChatEnabled', 'isChatDelayed', 'isChatFollowersOnly','name'))
     .where({
       id: id,
     }).first();
