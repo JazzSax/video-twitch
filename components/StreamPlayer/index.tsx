@@ -44,7 +44,7 @@ export const StreamPlayer = ({ user, stream, isFollowing }: StreamPlayerProps) =
         <div className={cn('col-span-1', collapsed && 'hidden')}>
           <Chat 
           viewerName={name} 
-          hostName={user.username} 
+          hostName={user.username ?? ""} 
           hostIdentity={user.id} 
           isFollowing={isFollowing} 
           isChatEnabled={stream.isChatEnabled}

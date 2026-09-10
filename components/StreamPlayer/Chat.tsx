@@ -9,10 +9,10 @@ import { ChatHeader } from "./ChatHeader";
 import { ChatVariant } from "@/store/use-chat-sidebar";
 import { ChatForm } from "./ChatForm";
 import { ChatList } from "./ChatList";
-
+import { ChatCommunity } from "./ChatCommunity";
 interface ChatProps {
   viewerName: string;
-  hostName: string | null;
+  hostName: string ;
   hostIdentity: string;
   isFollowing: boolean;
   isChatEnabled: boolean;
@@ -73,7 +73,8 @@ export const Chat = ({ viewerName, hostName, hostIdentity, isFollowing, isChatEn
     }
     {
       variant === ChatVariant.COMMUNITY && (
-        <>paragraph</>
+        <ChatCommunity viewerName={viewerName} hostName={hostName} isHidden={isHidden}/>
+
       )
     }
   </div>
