@@ -10,12 +10,13 @@ import { cn } from "@/lib/utils";
 import { Header, HeaderSkeleton } from "./Header";
 import { ChatToggle } from "./ChatToggle";
 import { InfoCard } from "./InfoCard";
+import { AboutCard } from "./AboutCard";
 type User = FieldOutputTypes["public"]["User"];
 type Stream = FieldOutputTypes["public"]["Stream"];
 type StreamPreview = Pick<Stream, "id" | "streamKey" | "serverUrl" | "ingressId" | "isLive" | "isChatEnabled" | "isChatDelayed" | "isChatFollowersOnly" | "name" | "thumbnail">;
 
 interface StreamPlayerProps {
-  user: User & { stream: StreamPreview | null };
+  user: User & { stream: StreamPreview | null; followers: number };
   stream: StreamPreview;
   isFollowing: boolean;
 }
@@ -54,6 +55,13 @@ export const StreamPlayer = ({ user, stream, isFollowing }: StreamPlayerProps) =
             viewerIdentity={identity}
             name={stream.name}
             thumbnailUrl={stream.thumbnail ?? ""}
+          />
+          <AboutCard
+            hostName={user.username}
+            hostIdentity={user.id}
+            viewerIdentity={identity}
+            bio={user.bio}
+            followedByCount={user.followers}
           />
         </div>
         <div className={cn('col-span-1', collapsed && 'hidden')}>
