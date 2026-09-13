@@ -1,7 +1,5 @@
 import type { NextConfig } from "next";
 
-const uploadthingAppId = process.env.UPLOADTHING_APP_ID;
-
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["precise-internal-skink.ngrok-free.app"],
   images: {
@@ -9,17 +7,13 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "utfs.io",
-        pathname: "/f/**",
+        pathname: "/**",
       },
-      ...(uploadthingAppId
-        ? [
-            {
-              protocol: "https" as const,
-              hostname: `${uploadthingAppId}.ufs.sh`,
-              pathname: "/f/**",
-            },
-          ]
-        : []),
+      {
+        protocol: "https",
+        hostname: "*.ufs.sh",
+        pathname: "/**",
+      },
     ],
   },
 };

@@ -4,11 +4,12 @@ export default clerkMiddleware();
 
 export const config = {
   matcher: [
-    // Skip Next.js internals, static files, webhooks, and UploadThing.
-    // UploadThing callbacks must stay publicly reachable:
-    // https://docs.uploadthing.com/faq
-    '/((?!_next|api/webhooks|api/uploadthing|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Skip Next.js internals, static files, and webhook routes
+    '/((?!_next|api/webhooks|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for Clerk's auto-proxy path
     '/__clerk/:path*',
-    '/(api(?!/webhooks|/uploadthing)|trpc)(.*)',
+    // Always run for API/trpc routes except webhooks
+    '/(api(?!/webhooks)|trpc)(.*)',
+    '/api/uploadthing',
   ],
 };

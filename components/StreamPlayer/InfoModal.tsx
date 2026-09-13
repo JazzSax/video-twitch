@@ -9,7 +9,9 @@ import { useRouter } from "next/navigation";
 import { updateStream } from "@/actions/stream";
 import { toast } from "sonner";
 import { UploadDropzone } from "@/lib/uploadthing";
-
+import { Hint } from "@/components/Hint";
+import { Trash } from "lucide-react";
+import Image from "next/image";
 
 interface InfoModalProps {
   initialName: string;
@@ -32,6 +34,20 @@ export const InfoModal = ({ initialName, initialThumbnailUrl }: InfoModalProps) 
       updateStream({ name })
       .then(() => {
         toast.success("Stream updated");
+        closeRef.current?.click();
+      })
+      .catch(() => {
+        toast.error("Something went wrong");
+      })
+    })
+  }
+
+  const onRemove = () => {
+    startTransition(() => {
+      updateStream({ thumbnail: null })
+      .then(() => {
+        toast.success("Thumbnail removed");
+        setThumbnailUrl("");
         closeRef.current?.click();
       })
       .catch(() => {
@@ -66,24 +82,45 @@ export const InfoModal = ({ initialName, initialThumbnailUrl }: InfoModalProps) 
             <Label>
               Thumbnail
             </Label>
-            <div className="rounded-xl border outline-dashed outline-muted">
-              <UploadDropzone endpoint="imageUploader" 
-              appearance={{
-                label:{
-                  color: "#FFFFFF"
-                },
-                allowedContent:{
-                  color: "#FFFFFF"
-                }
-              }}
-              onClientUploadComplete={(res) => {
-                setThumbnailUrl(res[0].ufsUrl);
-                router.refresh();
-              }}
-             
-              />
-            
-            </div>
+            {thumbnailUrl && (
+              <div className="relative aspect-video rounded-xl overflow-hidden border border-white/10">
+                <div className="absolute top-2 right-2 z-[10]">
+                  <Hint label="Remove thumbnail" asChild side="left">
+                    <Button type="button" disabled={isPending} onClick={onRemove} className="h-auto w-auto p-1.5">
+                      <Trash className="h-4 w-4" />
+                    </Button>
+                  </Hint>
+                </div>
+                <Image src={thumbnailUrl} alt="Thumbnail" fill className="object-cover" />
+              </div>
+
+            )}
+            {
+              !thumbnailUrl && (
+                <div className="rounded-xl border outline-dashed outline-muted">
+                  <UploadDropzone endpoint="thumbnailUploader" 
+                  appearance={{
+                    label:{
+                      color: "#FFFFFF"
+                    },
+                    allowedContent:{
+                      color: "#FFFFFF"
+                    }
+                  }}
+                  onClientUploadComplete={(res) => {
+                    setThumbnailUrl(res[0].ufsUrl);
+                    router.refresh();
+                    closeRef.current?.click();
+                  }}
+                  onUploadError={(error: Error) => {
+                    toast.error(error.message);
+                  }}
+                  />
+                
+                </div>
+              )
+            }
+           
           </div>
           <div className="flex justify-between">
             <DialogClose ref={closeRef} render={<Button type="button" variant="ghost" >Cancel</Button>} />

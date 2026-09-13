@@ -6,7 +6,7 @@ import { db } from "@/prisma/db";
 const f = createUploadthing();
 
 export const ourFileRouter = {
-  imageUploader: f({
+  thumbnailUploader: f({
     image: {
       maxFileSize: "4MB",
       maxFileCount: 1,
