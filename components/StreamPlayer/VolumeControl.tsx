@@ -25,7 +25,7 @@ export const VolumeControl = ({ volume, onChange, onToggle }: VolumeControlProps
   };
   return (
     <div className="flex items-center gap-2">
-      <Hint label={label} side="bottom">
+      <Hint label={label} side="bottom" asChild>
         <button onClick={onToggle} className="text-white hover:bg-white/10 p-1.5 rounded-lg">
           <Icon className="w-6 h-6" />
         </button>

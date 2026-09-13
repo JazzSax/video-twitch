@@ -35,7 +35,7 @@ export const CommunityItem = ({ participantName, participantIdentity, hostName, 
       <p style={{ color }}>{participantName}</p>
       {
         isHost && !isSelf && (
-          <Hint label="Block">
+          <Hint label="Block" asChild>
             <Button 
             variant="ghost"
             disabled={isPending} 
