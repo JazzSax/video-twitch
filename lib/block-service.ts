@@ -120,3 +120,17 @@ export const unblockUser = async (userId: string) => {
     throw new Error("Failed to unblock user");
   }
 };
+
+export const getBlockedUsers = async () => {
+  try {
+    const self = await getSelf();
+    const blockedUsers = await db.orm.public.Block
+    .include('blocked', (user) => user.select('id', 'username', 'imageUrl', 'createdAt'))
+    .where({
+      blockerId: self.id,
+    }).all();
+    return blockedUsers;
+  } catch {
+    return [];
+  }
+};
