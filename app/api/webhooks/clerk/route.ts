@@ -2,7 +2,7 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { db } from "@/prisma/db";
-
+import { resetIngress } from "@/actions/ingress";
 export async function POST(request: Request) {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
   if (!WEBHOOK_SECRET) {
@@ -73,6 +73,7 @@ export async function POST(request: Request) {
     return new Response("User updated", { status: 200 });
   }
   if (event.type === "user.deleted") {
+    await resetIngress(payload.data.id);
   
     const {
       id,
