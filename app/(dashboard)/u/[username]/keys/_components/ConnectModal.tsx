@@ -39,9 +39,8 @@ export const ConnectModal = () => {
   }
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="primary">Generate connection</Button>
-      </DialogTrigger>
+      <DialogTrigger render={() => <Button variant="primary">Generate connection</Button>}/>
+       
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Generate connection</DialogTitle>
@@ -63,9 +62,7 @@ export const ConnectModal = () => {
           </AlertDescription>
         </Alert>
         <div className="flex justify-between">
-          <DialogClose asChild ref={closeRef}>
-            <Button variant="outline" disabled={isPending}>Cancel</Button>
-          </DialogClose>
+          <DialogClose  ref={closeRef} render={() => <Button variant="outline" disabled={isPending}>Cancel</Button>}/>
           <Button variant="primary" disabled={isPending} onClick={onSubmit}>Generate</Button>
         </div>
       </DialogContent>
