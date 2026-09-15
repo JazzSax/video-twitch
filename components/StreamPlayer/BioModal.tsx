@@ -44,7 +44,7 @@ export const BioModal = ({ initialBio }: BioModalProps) => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Bio</DialogTitle>
+          <DialogTitle>Edit</DialogTitle>
           <DialogDescription>
             Edit your bio to share with your followers.
           </DialogDescription>
