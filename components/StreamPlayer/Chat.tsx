@@ -13,14 +13,24 @@ import { ChatCommunity } from "./ChatCommunity";
 
 interface ChatProps {
   viewerName: string;
-  hostName: string ;
+  hostName: string;
   hostIdentity: string;
+  viewerIdentity: string;
   isFollowing: boolean;
   isChatEnabled: boolean;
   isChatDelayed: boolean;
   isChatFollowersOnly: boolean;
 }
-export const Chat = ({ viewerName, hostName, hostIdentity, isFollowing, isChatEnabled, isChatDelayed, isChatFollowersOnly }: ChatProps) => {  
+export const Chat = ({
+  viewerName,
+  hostName,
+  hostIdentity,
+  viewerIdentity,
+  isFollowing,
+  isChatEnabled,
+  isChatDelayed,
+  isChatFollowersOnly,
+}: ChatProps) => {
   const matches = useMediaQuery('(max-width: 1024px)');
   const { variant, onExpand } = useChatSidebar();
   const connectionState = useConnectionState();
@@ -74,7 +84,11 @@ export const Chat = ({ viewerName, hostName, hostIdentity, isFollowing, isChatEn
     }
     {
       variant === ChatVariant.COMMUNITY && (
-        <ChatCommunity viewerName={viewerName} hostName={hostName} isHidden={isHidden}/>
+        <ChatCommunity
+          hostIdentity={hostIdentity}
+          viewerIdentity={viewerIdentity}
+          isHidden={isHidden}
+        />
       )
     }
   </div>

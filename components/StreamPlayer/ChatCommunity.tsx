@@ -8,11 +8,15 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { CommunityItem } from "./CommunityItem";
 import { RemoteParticipant, LocalParticipant } from "livekit-client";
 interface ChatCommunityProps {
-  viewerName: string;
-  hostName: string ;
+  hostIdentity: string;
+  viewerIdentity: string;
   isHidden: boolean;
 }
-export const ChatCommunity = ({ viewerName, hostName, isHidden }: ChatCommunityProps) => {
+export const ChatCommunity = ({
+  hostIdentity,
+  viewerIdentity,
+  isHidden,
+}: ChatCommunityProps) => {
   const [value, setValue] = useState("");
   const [debouncedValue] = useDebounceValue<string>(value, 500);
   const participants = useParticipants();
@@ -57,13 +61,13 @@ export const ChatCommunity = ({ viewerName, hostName, isHidden }: ChatCommunityP
         </p>
         {
         filteredParticipants.map((participant) => (
-          <CommunityItem 
-            key={participant.identity} 
-            participantName={participant.name} 
+          <CommunityItem
+            key={participant.identity}
+            participantName={participant.name}
             participantIdentity={participant.identity}
-            hostName={hostName} 
-            viewerName={viewerName} />
-          
+            hostIdentity={hostIdentity}
+            viewerIdentity={viewerIdentity}
+          />
         ))
       }
 

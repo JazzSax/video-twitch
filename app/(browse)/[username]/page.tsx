@@ -13,7 +13,7 @@ interface UserPageProps {
 export default async function UserPage({ params }: UserPageProps) {
   const { username } = await params;
   const user = await getUserByUsername(username);
-
+  
   if (!user || !user.stream) {
     notFound();
   }

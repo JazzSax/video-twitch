@@ -68,7 +68,8 @@ export const StreamPlayer = ({ user, stream, isFollowing }: StreamPlayerProps) =
           <Chat 
             viewerName={name} 
             hostName={user.username ?? ""} 
-            hostIdentity={user.id} 
+            hostIdentity={user.id}
+            viewerIdentity={identity}
             isFollowing={isFollowing} 
             isChatEnabled={stream.isChatEnabled}
             isChatDelayed={stream.isChatDelayed}
