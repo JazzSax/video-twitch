@@ -10,7 +10,7 @@ const CreatorPage = async ({ params }: CreatorPageProps) => {
   const { username } = await params;
   const externalUser = await currentUser();
   const user = await getUserByUsername(username);
-  if (!user || user.clerkId !== externalUser?.id || !user.stream) {
+  if (!user || !user.stream || user.clerkId !== externalUser?.id) {
     throw new Error("Unauthorized");
   }
   return <div className='h-full'>

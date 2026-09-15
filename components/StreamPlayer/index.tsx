@@ -1,6 +1,5 @@
 "use client";
 
-import type { FieldOutputTypes } from "@/prisma/schema.d";
 import { useViewerToken } from "@/hooks/use-viewer-token";
 import { LiveKitRoom } from "@livekit/components-react";
 import { Video, VideoSkeleton } from "./Video";
@@ -11,13 +10,11 @@ import { Header, HeaderSkeleton } from "./Header";
 import { ChatToggle } from "./ChatToggle";
 import { InfoCard } from "./InfoCard";
 import { AboutCard } from "./AboutCard";
-type User = FieldOutputTypes["public"]["User"];
-type Stream = FieldOutputTypes["public"]["Stream"];
-type StreamPreview = Pick<Stream, "id" | "streamKey" | "serverUrl" | "ingressId" | "isLive" | "isChatEnabled" | "isChatDelayed" | "isChatFollowersOnly" | "name" | "thumbnail">;
+import type { UserByUsername, UserStream } from "@/lib/user-service";
 
 interface StreamPlayerProps {
-  user: User & { stream: StreamPreview | null; followers: number };
-  stream: StreamPreview;
+  user: UserByUsername;
+  stream: UserStream;
   isFollowing: boolean;
 }
 export const StreamPlayer = ({ user, stream, isFollowing }: StreamPlayerProps) => {
