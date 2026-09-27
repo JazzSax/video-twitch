@@ -10,7 +10,10 @@ const roomService = new RoomServiceClient(
   process.env.LIVEKIT_API_KEY!, 
   process.env.LIVEKIT_API_SECRET!)
 
-const ingressClient = new IngressClient(process.env.LIVEKIT_API_URL!)
+const ingressClient = new IngressClient(
+  process.env.LIVEKIT_API_URL!,
+  process.env.LIVEKIT_API_KEY!,
+  process.env.LIVEKIT_API_SECRET!)
 
 export const resetIngress = async (hostIdentity: string) => {
   const ingresses = await ingressClient.listIngress({
