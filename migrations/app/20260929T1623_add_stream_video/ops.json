@@ -1,0 +1,44 @@
+[
+  {
+    "id": "column.public.stream.video",
+    "label": "Add column \"video\" to \"stream\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "video",
+        "table": "stream"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"video\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "stream",
+          "video"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"video\"",
+        "sql": "ALTER TABLE \"public\".\"stream\" ADD COLUMN \"video\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"video\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "stream",
+          "video"
+        ]
+      }
+    ]
+  }
+]

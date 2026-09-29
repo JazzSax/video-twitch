@@ -16,11 +16,13 @@ import Image from "next/image";
 interface InfoModalProps {
   initialName: string;
   initialThumbnailUrl: string;
+  initialVideoUrl: string;
 }
 
-export const InfoModal = ({ initialName, initialThumbnailUrl }: InfoModalProps) => {
+export const InfoModal = ({ initialName, initialThumbnailUrl, initialVideoUrl }: InfoModalProps) => {
   const [name, setName] = useState(initialName);
   const [thumbnailUrl, setThumbnailUrl] = useState(initialThumbnailUrl);
+  const [videoUrl, setVideoUrl] = useState(initialVideoUrl);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -48,6 +50,20 @@ export const InfoModal = ({ initialName, initialThumbnailUrl }: InfoModalProps) 
       .then(() => {
         toast.success("Thumbnail removed");
         setThumbnailUrl("");
+        closeRef.current?.click();
+      })
+      .catch(() => {
+        toast.error("Something went wrong");
+      })
+    })
+  }
+
+  const onRemoveVideo = () => {
+    startTransition(() => {
+      updateStream({ video: null })
+      .then(() => {
+        toast.success("Video removed");
+        setVideoUrl("");
         closeRef.current?.click();
       })
       .catch(() => {
@@ -120,7 +136,48 @@ export const InfoModal = ({ initialName, initialThumbnailUrl }: InfoModalProps) 
                 </div>
               )
             }
-           
+
+          </div>
+          <div className="space-y-2">
+            <Label>
+              Video
+            </Label>
+            {videoUrl && (
+              <div className="relative aspect-video rounded-xl overflow-hidden border border-white/10">
+                <div className="absolute top-2 right-2 z-[10]">
+                  <Hint label="Remove video" asChild side="left">
+                    <Button type="button" disabled={isPending} onClick={onRemoveVideo} className="h-auto w-auto p-1.5">
+                      <Trash className="h-4 w-4" />
+                    </Button>
+                  </Hint>
+                </div>
+                <video src={videoUrl} controls className="h-full w-full object-cover" />
+              </div>
+            )}
+            {
+              !videoUrl && (
+                <div className="rounded-xl border outline-dashed outline-muted">
+                  <UploadDropzone endpoint="videoUploader"
+                  appearance={{
+                    label:{
+                      color: "#FFFFFF"
+                    },
+                    allowedContent:{
+                      color: "#FFFFFF"
+                    }
+                  }}
+                  onClientUploadComplete={(res) => {
+                    setVideoUrl(res[0].ufsUrl);
+                    router.refresh();
+                    closeRef.current?.click();
+                  }}
+                  onUploadError={(error: Error) => {
+                    toast.error(error.message);
+                  }}
+                  />
+                </div>
+              )
+            }
           </div>
           <div className="flex justify-between">
             <DialogClose ref={closeRef} render={<Button type="button" variant="ghost" >Cancel</Button>} />

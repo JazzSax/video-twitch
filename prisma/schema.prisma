@@ -50,6 +50,7 @@ model Stream {
   id        String   @id @default(uuid())
   name String
   thumbnail String?
+  video String?
 
   ingressId String? @unique
   serverUrl String?

@@ -29,6 +29,29 @@ export const ourFileRouter = {
 
       return { fileUrl: file.ufsUrl };
     }),
+  videoUploader: f({
+    video: {
+      maxFileSize: "512MB",
+      maxFileCount: 1,
+    },
+  })
+    .middleware(async () => {
+      try {
+        const user = await getSelf();
+        return { userId: user.id };
+      } catch {
+        throw new UploadThingError("Unauthorized");
+      }
+    })
+    .onUploadComplete(async ({ metadata, file }) => {
+      await db.orm.public.Stream.where({
+        userId: metadata.userId,
+      }).update({
+        video: file.ufsUrl,
+      });
+
+      return { fileUrl: file.ufsUrl };
+    }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

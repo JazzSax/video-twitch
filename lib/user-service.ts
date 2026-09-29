@@ -4,7 +4,7 @@ export const getUserByUsername = async (username: string) => {
   try {
     const user = await db.orm.public.User
       .select('id', 'clerkId', 'username', 'imageUrl', 'bio')
-      .include('stream', (stream) => stream.select('id', 'isLive', 'isChatEnabled', 'isChatDelayed', 'isChatFollowersOnly', 'name', 'thumbnail'))
+      .include('stream', (stream) => stream.select('id', 'isLive', 'isChatEnabled', 'isChatDelayed', 'isChatFollowersOnly', 'name', 'thumbnail', 'video'))
       .include('followers', (followers) => followers.count())
       .where({
         username: username,
@@ -22,7 +22,7 @@ export type UserStream = NonNullable<UserByUsername["stream"]>;
 export const getUserById = async (id: string) => {
   try {
     const user = await db.orm.public.User
-      .include('stream', (stream) => stream.select('id', 'streamKey', 'serverUrl', 'ingressId', 'isLive', 'isChatEnabled', 'isChatDelayed', 'isChatFollowersOnly', 'name', 'thumbnail'))
+      .include('stream', (stream) => stream.select('id', 'streamKey', 'serverUrl', 'ingressId', 'isLive', 'isChatEnabled', 'isChatDelayed', 'isChatFollowersOnly', 'name', 'thumbnail', 'video'))
       .include('followers', (followers) => followers.count())
       .where({
         id: id,

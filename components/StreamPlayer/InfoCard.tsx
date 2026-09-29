@@ -7,11 +7,12 @@ import { InfoModal } from "./InfoModal";
 interface InfoCardProps {
   name: string;
   thumbnailUrl: string;
+  videoUrl: string;
   hostIdentity: string;
   viewerIdentity: string;
 }
 
-export const InfoCard = ({ name, thumbnailUrl, hostIdentity, viewerIdentity }: InfoCardProps) => {
+export const InfoCard = ({ name, thumbnailUrl, videoUrl, hostIdentity, viewerIdentity }: InfoCardProps) => {
   const hostAsViewer = `host-${hostIdentity}`;
   const isHost = viewerIdentity === hostAsViewer;
 
@@ -36,6 +37,7 @@ export const InfoCard = ({ name, thumbnailUrl, hostIdentity, viewerIdentity }: I
           <InfoModal
             initialName={name}
             initialThumbnailUrl={thumbnailUrl}
+            initialVideoUrl={videoUrl}
           />
         </div>
         <Separator/>
@@ -55,7 +57,19 @@ export const InfoCard = ({ name, thumbnailUrl, hostIdentity, viewerIdentity }: I
                 <div className="relative aspect-video rounded-md w-48 overflow-hidden border border-white/10">
                   <Image fill src={thumbnailUrl} alt={name} className="object-cover" />
                 </div>
-              ) 
+              )
+            }
+          </div>
+          <div>
+            <h3 className="text-sm text-muted-foreground mb-2">
+              Video
+            </h3>
+            {
+              videoUrl && (
+                <div className="relative aspect-video rounded-md w-48 overflow-hidden border border-white/10">
+                  <video src={videoUrl} controls className="h-full w-full object-cover" />
+                </div>
+              )
             }
           </div>
         </div>

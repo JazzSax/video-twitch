@@ -33,7 +33,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'12cb5d5883ca0313cec3208423b93f4d5c9a3f8b82f83cbd986bc4b23a3b5ce2'>;
+  StorageHashBase<'3147c5a05e82b9fc42d8d7fa9659bd2a19ff3c69dd044ceeba85805ea2e5050c'>;
 export type ExecutionHash =
   ExecutionHashBase<'208e4eb89f0f99ba8c422fbf952b7bce59e45f600d472e415c3fea002b4c4a95'>;
 export type ProfileHash =
@@ -259,6 +259,7 @@ export type FieldOutputTypes = {
       readonly id: CodecTypes['pg/text@1']['output'];
       readonly name: CodecTypes['pg/text@1']['output'];
       readonly thumbnail: CodecTypes['pg/text@1']['output'] | null;
+      readonly video: CodecTypes['pg/text@1']['output'] | null;
       readonly ingressId: CodecTypes['pg/text@1']['output'] | null;
       readonly serverUrl: CodecTypes['pg/text@1']['output'] | null;
       readonly streamKey: CodecTypes['pg/text@1']['output'] | null;
@@ -301,6 +302,7 @@ export type FieldInputTypes = {
       readonly id: CodecTypes['pg/text@1']['input'];
       readonly name: CodecTypes['pg/text@1']['input'];
       readonly thumbnail: CodecTypes['pg/text@1']['input'] | null;
+      readonly video: CodecTypes['pg/text@1']['input'] | null;
       readonly ingressId: CodecTypes['pg/text@1']['input'] | null;
       readonly serverUrl: CodecTypes['pg/text@1']['input'] | null;
       readonly streamKey: CodecTypes['pg/text@1']['input'] | null;
@@ -353,6 +355,7 @@ export type StorageColumnTypes = {
       readonly thumbnail: CodecTypes['pg/text@1']['output'] | null;
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly userId: CodecTypes['pg/text@1']['output'];
+      readonly video: CodecTypes['pg/text@1']['output'] | null;
     };
     readonly user: {
       readonly bio: CodecTypes['pg/text@1']['output'] | null;
@@ -395,6 +398,7 @@ export type StorageColumnInputTypes = {
       readonly thumbnail: CodecTypes['pg/text@1']['input'] | null;
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly userId: CodecTypes['pg/text@1']['input'];
+      readonly video: CodecTypes['pg/text@1']['input'] | null;
     };
     readonly user: {
       readonly bio: CodecTypes['pg/text@1']['input'] | null;
@@ -594,6 +598,11 @@ type ContractBase = Omit<
                   readonly nullable: false;
                 };
                 readonly thumbnail: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly video: {
                   readonly nativeType: 'text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: true;
@@ -883,6 +892,10 @@ type ContractBase = Omit<
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
+              readonly video: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly ingressId: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
@@ -947,6 +960,7 @@ type ContractBase = Omit<
                 readonly id: { readonly column: 'id' };
                 readonly name: { readonly column: 'name' };
                 readonly thumbnail: { readonly column: 'thumbnail' };
+                readonly video: { readonly column: 'video' };
                 readonly ingressId: { readonly column: 'ingressId' };
                 readonly serverUrl: { readonly column: 'serverUrl' };
                 readonly streamKey: { readonly column: 'streamKey' };
