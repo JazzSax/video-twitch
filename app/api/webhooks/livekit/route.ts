@@ -30,5 +30,23 @@ export async function POST(request: Request) {
       isLive: false,
     });
   }
+
+  // Browser (webcam) publishing: the host joins their own room with identity === room name
+  const isHostParticipant =
+    !!event.room?.name && event.participant?.identity === event.room.name;
+
+  if(event.event === "participant_joined" && isHostParticipant) {
+    await db.orm.public.Stream.where({ userId: event.room!.name })
+    .update({
+      isLive: true,
+    });
+  }
+
+  if(event.event === "participant_left" && isHostParticipant) {
+    await db.orm.public.Stream.where({ userId: event.room!.name })
+    .update({
+      isLive: false,
+    });
+  }
   return new Response("OK", { status: 200 });
 }

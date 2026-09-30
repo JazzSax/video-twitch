@@ -6,9 +6,8 @@ import {
   Fullscreen,
   KeyRound,
   MessageSquare,
-  
   Users,
-
+  Video,
 } from "lucide-react";
 import { NavItem, NavItemSkeleton } from "./NavItem";
 export const Navigation = () => {
@@ -19,6 +18,11 @@ export const Navigation = () => {
       label: "Stream",
       href: `/u/${user?.username}`,
       icon: Fullscreen,
+    },
+    {
+      label: "Go Live",
+      href: `/u/${user?.username}/live`,
+      icon: Video,
     },
     {
       label: "Keys",
@@ -37,6 +41,7 @@ export const Navigation = () => {
   ]
   if (!user) return (
     <ul className='space-y-2'>
+      <NavItemSkeleton />
       <NavItemSkeleton />
       <NavItemSkeleton />
       <NavItemSkeleton />
