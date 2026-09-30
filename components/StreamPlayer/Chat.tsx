@@ -10,6 +10,7 @@ import { ChatVariant } from "@/store/use-chat-sidebar";
 import { ChatForm, ChatFormSkeleton } from "./ChatForm";
 import { ChatList, ChatListSkeleton } from "./ChatList";
 import { ChatCommunity } from "./ChatCommunity";
+import { ChatAd } from "./ChatAd";
 
 interface ChatProps {
   viewerName: string;
@@ -65,6 +66,7 @@ export const Chat = ({
   return (
   <div className="flex flex-col bg-background border-l border-b pt-0 h-[calc(100vh-80px)]">
     <ChatHeader/>
+    <ChatAd/>
     {
       variant === ChatVariant.CHAT && (
         <>
